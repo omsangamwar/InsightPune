@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./website-tech.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Mulish:wght@600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap"
+    />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="website-tech1">
+      <div class="light-logo-left-5-links-cen-group">
+        <div class="light-logo-left-5-links-cen1">
+          <div class="header-white-with-divider1">
+            <div class="rect1"></div>
+          </div>
+          <div class="links1">
+            <a href="../../chatbothomepage/WebsiteTech.html">
+            <button class="home1">Home</button>
+          </a>
+        <a href="../dashboards/website-tech.html">
+            <button class="dashboards1">Dashboards</button>
+          </a>
+            <button class="weather1">Weather</button>
+          <a href="../news/news.html">
+            <button class="news1">News</button>
+          </a>
+        <a href="../feedback/website-tech.html">
+            <button class="feedback1">Feedback</button>
+          </a>
+          </div>
+        <a href="../../chatbothomepage/helpline/helpline.html">
+          <button class="contained-default-container">
+            <div class="contained-default1">
+              <div class="btn-rect1"></div>
+              <b class="label1">Helpline</b>
+            </div>
+          </button>
+        </a>
+          <div class="company-logo1">
+            <b class="logo1">INSIGHT PUNE</b>
+          </div>
+          <div class="card">
+            <div class="search">
+                <input type="text" placeholder="Enter the City" spellcheck="false">
+                <button><img src="search.png"></button>
+            </div>
+            <div class="error">
+                <p>Invalid City Name</p>
+            </div>
+            <div class="weather">
+                <img src="rain.png" class="weather-icon">
+                <h1 class="temp">22°C</h1>
+                <h2 class="city">New York</h2>
+                <div class="details">
+                    <div class="col">
+                        <img src="humidity.png" >
+                        <div>
+                            <p class="humidity">50%</p>
+                            <p>Humidity</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <img src="wind.png" >
+                        <div>
+                            <p class="wind">50%</p>
+                            <p>Wind</p>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        
+        </div>
+        <br>
+        <br>
+        <center>
+        <iframe title="Report Section" width="900" height="480" src="https://app.powerbi.com/view?r=eyJrIjoiMDhiMjc4MzgtYTU4OC00OWEzLWI5N2QtNWVkOTRjMWYwMDQ4IiwidCI6ImI2NzJlNDBkLTU0NjQtNGZkMi1iY2ZiLTExYTY2NmY2MmZmZiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+      </center>
+        <br>
+        <br>
+        <center><h5>AIR QUALITY INDEX</h5></center>
+        <br>
+        <br>
+        <div>
+          <center>
+          <table id="aqi-table">
+            <thead>
+                <tr>
+                    <th>Pollutant</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+      </center>
+      
+        </div>
+        
+        <script>
+
+          $(document).ready(function () {
+            var city = "Pune";
+            var url = 'https://api.waqi.info/feed/' + city + '/?token=';
+            var api_key = '4e9e0ac9b920579127dda413ef1e6491e3cd6890';
+            var main_url = url + api_key;
+        
+            $.get(main_url, function (data) {
+                if (data.status === "ok") {
+                    
+                    var tableBody = $('#table-body');
+                    for (var pollutant in data.data.iaqi) {
+                        tableBody.append('<tr><td>' + pollutant + '</td><td>' + data.data.iaqi[pollutant].v + '</td></tr>');
+                    }
+                } else {
+                    console.error("Error fetching data:", data.data);
+                }
+            }).fail(function () {
+                console.error("Failed to fetch data");
+            });
+        });
+
+
+            const apiKey = "65985b3be0ba138842e17239676d835a";
+            const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+            const searchBox = document.querySelector(".search input");
+            const searchBtn = document.querySelector(".search button");
+            const weatherIcon =  document.querySelector(".weather-icon");
+        
+            async function checkWeather(city)
+            {
+                const response = await fetch(apiUrl + city +'&appid='+apiKey);
+        
+                if(response.status==404)
+                {
+                    document.querySelector(".error").style.display="block";
+                    document.querySelector(".weather").style.display="none";
+                }
+        
+                else{
+                    var data =  await response.json();
+                    console.log(data);
+            
+                    document.querySelector(".city").innerHTML =  data.name;
+                    document.querySelector(".temp").innerHTML =  Math.round(data.main.temp)+ "°C";
+                    document.querySelector(".humidity").innerHTML =  data.main.humidity + "%";
+                    document.querySelector(".wind").innerHTML =  data.wind.speed + "km/h";
+                
+            
+                    if(data.weather[0]=="Clouds")
+                    {
+                        weatherIcon.src = "clouds.png";
+                    }
+                    else if(data.weather[0]=="Clear"){
+                        weatherIcon.src = "clear.png";
+                    }
+                    else if(data.weather[0]=="Rain"){
+                        weatherIcon.src = "rain.png";
+                    }
+                    else if(data.weather[0]=="Drizzle"){
+                        weatherIcon.src = "drizzle.png";
+                    }
+                    else if(data.weather[0]=="Mist"){
+                        weatherIcon.src = "mist.png";
+                    }
+                    
+                    document.querySelector(".weather").style.display="block";
+                    document.querySelector(".error").style.display="none";
+                }
+               
+            }
+            searchBtn.addEventListener("click",()=>{
+                checkWeather(searchBox.value);
+            })
+        
+        </script>
+        </div>
+        <button class="light-small-rights1">
+          <div class="brandname-all-rights1">
+            © BrandName. All rights reserved.
+          </div>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

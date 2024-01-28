@@ -1,0 +1,17 @@
+const responseObj = {
+  hello: "Hey ! How are you doing ?",
+  hey: "Hey! What's Up",
+  help: "Please Type 1 :: Education 2 :: Healthcare 3 :: Wastemanagement" ,
+  2: "Type A-Best Psycgiatric Hospital :: B - Best Oncology :: C - Best Rehabilitation Hospital:: D - Best Childrens Hospital",
+  A: "Nirman Psycgiatric Nursing",
+  B: "Aditya Birla Memorial Hospital (ABMH)",
+  C: "Unique Foundation De Addiction Centre",
+  D: "Rao Nursing Home",
+  1: "Type E-Best CBSE School :: F-Best ICSE School",
+  E: "Delhi Public School",
+  F: "Ryan Public School",
+  3: "Type G-Population of Pune :: H-Sex Ratio :: I-Area in sq",
+  G: "9,429,408",
+  H: "915 females per 1000 males",
+  I: "15,643"  ,   
+};
